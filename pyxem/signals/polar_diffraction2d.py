@@ -124,11 +124,13 @@ class PolarDiffraction2D(Signal2D):
         Parameters
         ----------
         mask: Numpy array
-            A bool mask of values to ignore of shape equal to the signal shape. True for
-            elements masked, False for elements unmasked
-        krange: tuple
-            The range of k values in corresponding unit for segment correlation (None if use
-            the entire pattern). Not compatible with ``inplace=True``.
+            A bool mask of values to ignore of shape equal to the signal shape.
+            True for elements masked, False for elements unmasked
+        krange: tuple of int or float
+            The range of k values for segment correlation. If type is ``int``,
+            the value is taken as the axis index. If type is ``float`` the
+            value is in corresponding unit.
+            If None (default), use the entire pattern .
         inplace: bool
             From hyperspy.signal.map(). inplace=True means the signal is
             overwritten.
@@ -138,24 +140,30 @@ class PolarDiffraction2D(Signal2D):
         correlation: Signal2D,
             The pearson rotational correlation when inplace is False, otherwise
             return None
-        """        
+        """
+        # placeholder to handle inplace playing well with cropping and mapping
+        s_ = self
         if krange is not None:
-            self.crop(-1, start=krange[0], end=krange[1])
+            if inplace:
+                s_.crop(-1, start=krange[0], end=krange[1])
+            else:
+                s_ = self.isig[:, krange[0]:krange[1]]
 
             if mask is not None:
                 mask = Signal2D(mask)
-                mask.axes_manager.signal_axes[-1].scale = self.axes_manager[-1].scale
-                mask.axes_manager.signal_axes[-1].offset = self.axes_manager[-1].offset
+                # When float krange are used, axis calibration is required
+                mask.axes_manager[-1].scale = self.axes_manager[-1].scale
+                mask.axes_manager[-1].offset = self.axes_manager[-1].offset
                 mask.crop(-1, start=krange[0], end=krange[1])
 
-        correlation = self.map(
+        correlation = s_.map(
             _pearson_correlation,
             mask=mask,
             inplace=inplace,
             **kwargs
             )
 
-        s = self if inplace else correlation
+        s = s_ if inplace else correlation
         s.set_signal_type("correlation")
         
         rho_axis = s.axes_manager.signal_axes[0]
