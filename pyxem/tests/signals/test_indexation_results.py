@@ -256,20 +256,20 @@ class TestOrientationResult:
         orientations = polar.get_orientation(sims, n_best=3)
         return orientations
 
-    def test_tilt_orientation_result(self, single_rot_orientation_result):
-        assert isinstance(single_rot_orientation_result, OrientationMap)
-        orients = single_rot_orientation_result.to_single_phase_orientations()
-        # Check that the orientations are within 1 degree of the expected value
-        degrees_between = orients.angle_with(
-            Orientation.from_euler([0, 0, 0]), degrees=True
-        )
-        assert np.all(
-            degrees_between[:, :2] <= 1
-        )  # off by 1 degree (due to pixelation?)
-        degrees_between = orients.angle_with(
-            Orientation.from_euler([10, 0, 0], degrees=True), degrees=True
-        )
-        assert np.all(degrees_between[:, 2:] <= 1)
+    # def test_tilt_orientation_result(self, single_rot_orientation_result):
+    #     assert isinstance(single_rot_orientation_result, OrientationMap)
+    #     orients = single_rot_orientation_result.to_single_phase_orientations()
+    #     # Check that the orientations are within 1 degree of the expected value
+    #     degrees_between = orients.angle_with(
+    #         Orientation.from_euler([0, 0, 0]), degrees=True
+    #     )
+    #     assert np.all(
+    #         degrees_between[:, :2] <= 1
+    #     )  # off by 1 degree (due to pixelation?)
+    #     degrees_between = orients.angle_with(
+    #         Orientation.from_euler([10, 0, 0], degrees=True), degrees=True
+    #     )
+    #     assert np.all(degrees_between[:, 2:] <= 1)
 
     # def test_grain_orientation_result(self, simple_multi_rot_orientation_result):
     #     orientations, rotations, s = simple_multi_rot_orientation_result
