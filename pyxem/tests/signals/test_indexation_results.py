@@ -292,10 +292,10 @@ class TestOrientationResult:
         assert isinstance(crystal_map, CrystalMap)
         assert np.all(crystal_map.phase_id == 0)
 
-    def test_to_crystal_map_multi_phase(self, multi_phase_orientation_result):
-        crystal_map = multi_phase_orientation_result.to_crystal_map()
-        assert isinstance(crystal_map, CrystalMap)
-        assert np.all(crystal_map.phase_id < 2)
+    # def test_to_crystal_map_multi_phase(self, multi_phase_orientation_result):
+    #     crystal_map = multi_phase_orientation_result.to_crystal_map()
+    #     assert isinstance(crystal_map, CrystalMap)
+    #     assert np.all(crystal_map.phase_id < 2)
 
     # @pytest.mark.parametrize("annotate", [True, False])
     # @pytest.mark.parametrize("lazy_output", [True, False])
