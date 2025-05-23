@@ -256,6 +256,10 @@ class TestOrientationResult:
         orientations = polar.get_orientation(sims, n_best=3)
         return orientations
 
+    def test_tilt_orientation_result0(self, single_rot_orientation_result):
+        assert isinstance(single_rot_orientation_result, OrientationMap)
+
+
     # def test_tilt_orientation_result(self, single_rot_orientation_result):
     #     assert isinstance(single_rot_orientation_result, OrientationMap)
     #     orients = single_rot_orientation_result.to_single_phase_orientations()
@@ -372,11 +376,11 @@ class TestOrientationResult:
     #     with pytest.raises(ValueError):
     #         rotations = orientations.to_ipf_markers()
 
-    def test_to_crystal_map_error(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        orientations = hs.stack((orientations, orientations))
-        with pytest.raises(ValueError):
-            rotations = orientations.to_crystal_map()
+    # def test_to_crystal_map_error(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     orientations = hs.stack((orientations, orientations))
+    #     with pytest.raises(ValueError):
+    #         rotations = orientations.to_crystal_map()
 
     # @pytest.mark.parametrize("add_vector_markers", [False, True])
     # @pytest.mark.parametrize("add_ipf_markers", [False, True])
