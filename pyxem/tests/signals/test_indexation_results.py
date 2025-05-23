@@ -181,8 +181,8 @@ class TestOrientationResult:
             reciprocal_radius=1.5,
             with_direct_beam=False,
         )
-        orientation_map = polar_si_tilt.get_orientation(sim)
-        return orientation_map
+        # orientation_map = polar_si_tilt.get_orientation(sim)
+        # return orientation_map
 
     @pytest.fixture(scope="class")
     def multi_rot_orientation_result(self):
