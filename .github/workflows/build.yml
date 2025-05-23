@@ -69,7 +69,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -n 1 --cov=pyxem --runslow --pyargs pyxem --durations=50 --timeout=360
+          pytest -n 1 --cov=pyxem --runslow --pyargs pyxem --durations=50 --timeout=360 -vv
 
       - name: Generate line coverage
         if: ${{ matrix.os == 'ubuntu-latest' }}
