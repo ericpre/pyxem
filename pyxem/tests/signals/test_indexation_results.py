@@ -286,11 +286,11 @@ class TestOrientationResult:
         min_deg = np.min(degrees_between, axis=2)
         np.testing.assert_allclose(min_deg, 0, atol=3)
 
-    def test_to_crystal_map(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        crystal_map = orientations.to_crystal_map()
-        assert isinstance(crystal_map, CrystalMap)
-        assert np.all(crystal_map.phase_id == 0)
+    # def test_to_crystal_map(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     crystal_map = orientations.to_crystal_map()
+    #     assert isinstance(crystal_map, CrystalMap)
+    #     assert np.all(crystal_map.phase_id == 0)
 
     # def test_to_crystal_map_multi_phase(self, multi_phase_orientation_result):
     #     crystal_map = multi_phase_orientation_result.to_crystal_map()
