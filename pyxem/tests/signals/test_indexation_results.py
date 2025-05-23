@@ -169,18 +169,18 @@ class TestOrientationResult:
         polar_si_tilt = s.get_azimuthal_integral2d(
             npt=100, npt_azim=360, inplace=False, mean=True
         )
-        phase = si_phase()
-        generator = SimulationGenerator(200)
-        sim = generator.calculate_diffraction2d(
-            phase,
-            rotation=Rotation.from_euler(
-                [0, 0, 0],
-                degrees=True,
-            ),
-            max_excitation_error=0.1,
-            reciprocal_radius=1.5,
-            with_direct_beam=False,
-        )
+        # phase = si_phase()
+        # generator = SimulationGenerator(200)
+        # sim = generator.calculate_diffraction2d(
+        #     phase,
+        #     rotation=Rotation.from_euler(
+        #         [0, 0, 0],
+        #         degrees=True,
+        #     ),
+        #     max_excitation_error=0.1,
+        #     reciprocal_radius=1.5,
+        #     with_direct_beam=False,
+        # )
         # orientation_map = polar_si_tilt.get_orientation(sim)
         # return orientation_map
 
