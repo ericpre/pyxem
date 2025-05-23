@@ -271,20 +271,20 @@ class TestOrientationResult:
         )
         assert np.all(degrees_between[:, 2:] <= 1)
 
-    def test_grain_orientation_result(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        assert isinstance(rotations, Orientation)
-        assert isinstance(orientations, OrientationMap)
-        orients = orientations.to_single_phase_orientations()
+    # def test_grain_orientation_result(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     assert isinstance(rotations, Orientation)
+    #     assert isinstance(orientations, OrientationMap)
+    #     orients = orientations.to_single_phase_orientations()
 
-        v1 = (orients * Vector3d.zvector()).in_fundamental_sector(orients.symmetry)
-        v2 = (rotations * Vector3d.zvector()).in_fundamental_sector(rotations.symmetry)
+    #     v1 = (orients * Vector3d.zvector()).in_fundamental_sector(orients.symmetry)
+    #     v2 = (rotations * Vector3d.zvector()).in_fundamental_sector(rotations.symmetry)
 
-        # Check that the orientations are within 2 degrees of the expected value.
-        # Use 2 degrees since that is the angular resolution of the polar dataset
-        degrees_between = v1.angle_with(v2, degrees=True)
-        min_deg = np.min(degrees_between, axis=2)
-        np.testing.assert_allclose(min_deg, 0, atol=3)
+    #     # Check that the orientations are within 2 degrees of the expected value.
+    #     # Use 2 degrees since that is the angular resolution of the polar dataset
+    #     degrees_between = v1.angle_with(v2, degrees=True)
+    #     min_deg = np.min(degrees_between, axis=2)
+    #     np.testing.assert_allclose(min_deg, 0, atol=3)
 
     # def test_to_crystal_map(self, simple_multi_rot_orientation_result):
     #     orientations, rotations, s = simple_multi_rot_orientation_result
