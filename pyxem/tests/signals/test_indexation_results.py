@@ -378,31 +378,31 @@ class TestOrientationResult:
     #     with pytest.raises(ValueError):
     #         rotations = orientations.to_crystal_map()
 
-    # @pytest.mark.parametrize("add_vector_markers", [False, True])
-    # @pytest.mark.parametrize("add_ipf_markers", [False, True])
-    # @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
-    # @pytest.mark.parametrize("add_ipf_colorkey", [False, True])
-    # @pytest.mark.parametrize(
-    #     "vector_kwargs", [None, {"annotate": False}, {"annotate": True}]
-    # )
-    # def test_plot_over_single_phase_signal(
-    #     self,
-    #     simple_multi_rot_orientation_result,
-    #     add_vector_markers,
-    #     add_ipf_markers,
-    #     add_ipf_correlation_heatmap,
-    #     add_ipf_colorkey,
-    #     vector_kwargs,
-    # ):
-    #     orientations, rotations, s = simple_multi_rot_orientation_result
-    #     orientations.plot_over_signal(
-    #         s,
-    #         add_vector_markers=add_vector_markers,
-    #         add_ipf_markers=add_ipf_markers,
-    #         add_ipf_correlation_heatmap=add_ipf_correlation_heatmap,
-    #         add_ipf_colorkey=add_ipf_colorkey,
-    #         vector_kwargs=vector_kwargs,
-    #     )
+    @pytest.mark.parametrize("add_vector_markers", [False, True])
+    @pytest.mark.parametrize("add_ipf_markers", [False, True])
+    @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
+    @pytest.mark.parametrize("add_ipf_colorkey", [False, True])
+    @pytest.mark.parametrize(
+        "vector_kwargs", [None, {"annotate": False}, {"annotate": True}]
+    )
+    def test_plot_over_single_phase_signal(
+        self,
+        simple_multi_rot_orientation_result,
+        add_vector_markers,
+        add_ipf_markers,
+        add_ipf_correlation_heatmap,
+        add_ipf_colorkey,
+        vector_kwargs,
+    ):
+        orientations, rotations, s = simple_multi_rot_orientation_result
+        orientations.plot_over_signal(
+            s,
+            add_vector_markers=add_vector_markers,
+            add_ipf_markers=add_ipf_markers,
+            add_ipf_correlation_heatmap=add_ipf_correlation_heatmap,
+            add_ipf_colorkey=add_ipf_colorkey,
+            vector_kwargs=vector_kwargs,
+        )
 
     # @pytest.mark.parametrize("add_vector_markers", [False, True])
     # @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
