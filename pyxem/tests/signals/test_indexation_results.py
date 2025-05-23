@@ -166,9 +166,9 @@ class TestOrientationResult:
     def single_rot_orientation_result(self):
         s = si_tilt()
         s.calibration.center = None
-        polar_si_tilt = s.get_azimuthal_integral2d(
-            npt=100, npt_azim=360, inplace=False, mean=True
-        )
+        # polar_si_tilt = s.get_azimuthal_integral2d(
+        #     npt=100, npt_azim=360, inplace=False, mean=True
+        # )
         # phase = si_phase()
         # generator = SimulationGenerator(200)
         # sim = generator.calculate_diffraction2d(
