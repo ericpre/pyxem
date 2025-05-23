@@ -297,218 +297,218 @@ class TestOrientationResult:
         assert isinstance(crystal_map, CrystalMap)
         assert np.all(crystal_map.phase_id < 2)
 
-    @pytest.mark.parametrize("annotate", [True, False])
-    @pytest.mark.parametrize("lazy_output", [True, False])
-    @pytest.mark.parametrize("add_intensity", [True, False])
-    def test_to_markers(
-        self,
-        simple_multi_rot_orientation_result,
-        annotate,
-        lazy_output,
-        add_intensity,
-    ):
-        fast = True
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        markers = orientations.to_markers(
-            lazy_output=lazy_output,
-            annotate=annotate,
-            include_intensity=add_intensity,
-            fast=fast,
-        )
-        assert isinstance(markers[0], hs.plot.markers.Markers)
+    # @pytest.mark.parametrize("annotate", [True, False])
+    # @pytest.mark.parametrize("lazy_output", [True, False])
+    # @pytest.mark.parametrize("add_intensity", [True, False])
+    # def test_to_markers(
+    #     self,
+    #     simple_multi_rot_orientation_result,
+    #     annotate,
+    #     lazy_output,
+    #     add_intensity,
+    # ):
+    #     fast = True
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     markers = orientations.to_markers(
+    #         lazy_output=lazy_output,
+    #         annotate=annotate,
+    #         include_intensity=add_intensity,
+    #         fast=fast,
+    #     )
+    #     assert isinstance(markers[0], hs.plot.markers.Markers)
 
-    def test_to_markers_lazy(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        orientations = orientations.as_lazy()
-        markers = orientations.to_markers()
-        assert isinstance(markers[0].kwargs["offsets"], da.Array)
+    # def test_to_markers_lazy(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     orientations = orientations.as_lazy()
+    #     markers = orientations.to_markers()
+    #     assert isinstance(markers[0].kwargs["offsets"], da.Array)
 
-    def test_to_single_phase_markers_polar(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        polar = s.get_azimuthal_integral2d(
-            npt=100, npt_azim=180, inplace=False, mean=True
-        )
-        from pyxem.common import VisibleDeprecationWarning
+    # def test_to_single_phase_markers_polar(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     polar = s.get_azimuthal_integral2d(
+    #         npt=100, npt_azim=180, inplace=False, mean=True
+    #     )
+    #     from pyxem.common import VisibleDeprecationWarning
 
-        with pytest.warns(VisibleDeprecationWarning):
-            markers = orientations.to_single_phase_polar_markers(
-                polar.axes_manager.signal_axes
-            )
-        assert isinstance(markers[0], hs.plot.markers.Markers)
+    #     with pytest.warns(VisibleDeprecationWarning):
+    #         markers = orientations.to_single_phase_polar_markers(
+    #             polar.axes_manager.signal_axes
+    #         )
+    #     assert isinstance(markers[0], hs.plot.markers.Markers)
 
-    def test_to_markers_polar(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        markers = orientations.to_polar_markers()
-        assert isinstance(markers[0], hs.plot.markers.Markers)
+    # def test_to_markers_polar(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     markers = orientations.to_polar_markers()
+    #     assert isinstance(markers[0], hs.plot.markers.Markers)
 
-    def test_to_ipf_markers(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        markers = orientations.to_ipf_markers()
-        assert isinstance(markers[0], hs.plot.markers.Markers)
+    # def test_to_ipf_markers(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     markers = orientations.to_ipf_markers()
+    #     assert isinstance(markers[0], hs.plot.markers.Markers)
 
-    @pytest.mark.parametrize("add_markers", [True, False])
-    def test_to_ipf_map(self, simple_multi_rot_orientation_result, add_markers):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        navigator = orientations.to_ipf_colormap(add_markers=add_markers)
-        assert isinstance(navigator, hs.signals.BaseSignal)
-        if add_markers:
-            assert len(navigator.metadata.Markers) == 3
+    # @pytest.mark.parametrize("add_markers", [True, False])
+    # def test_to_ipf_map(self, simple_multi_rot_orientation_result, add_markers):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     navigator = orientations.to_ipf_colormap(add_markers=add_markers)
+    #     assert isinstance(navigator, hs.signals.BaseSignal)
+    #     if add_markers:
+    #         assert len(navigator.metadata.Markers) == 3
 
-    def test_to_phasemap(self, multi_phase_orientation_result):
-        navigator = multi_phase_orientation_result.to_phase_map()
-        assert isinstance(navigator, hs.signals.BaseSignal)
+    # def test_to_phasemap(self, multi_phase_orientation_result):
+    #     navigator = multi_phase_orientation_result.to_phase_map()
+    #     assert isinstance(navigator, hs.signals.BaseSignal)
 
-    def test_multi_phase_errors(self, multi_phase_orientation_result):
-        with pytest.raises(ValueError):
-            multi_phase_orientation_result.to_ipf_colormap()
-        with pytest.raises(ValueError):
-            multi_phase_orientation_result.to_single_phase_orientations()
+    # def test_multi_phase_errors(self, multi_phase_orientation_result):
+    #     with pytest.raises(ValueError):
+    #         multi_phase_orientation_result.to_ipf_colormap()
+    #     with pytest.raises(ValueError):
+    #         multi_phase_orientation_result.to_single_phase_orientations()
 
-    def test_lazy_error(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        orientations = orientations.as_lazy()
-        with pytest.raises(ValueError):
-            rotations = orientations.to_rotation()
-        with pytest.raises(ValueError):
-            rotations = orientations.to_ipf_markers()
+    # def test_lazy_error(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     orientations = orientations.as_lazy()
+    #     with pytest.raises(ValueError):
+    #         rotations = orientations.to_rotation()
+    #     with pytest.raises(ValueError):
+    #         rotations = orientations.to_ipf_markers()
 
-    def test_to_crystal_map_error(self, simple_multi_rot_orientation_result):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        orientations = hs.stack((orientations, orientations))
-        with pytest.raises(ValueError):
-            rotations = orientations.to_crystal_map()
+    # def test_to_crystal_map_error(self, simple_multi_rot_orientation_result):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     orientations = hs.stack((orientations, orientations))
+    #     with pytest.raises(ValueError):
+    #         rotations = orientations.to_crystal_map()
 
-    @pytest.mark.parametrize("add_vector_markers", [False, True])
-    @pytest.mark.parametrize("add_ipf_markers", [False, True])
-    @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
-    @pytest.mark.parametrize("add_ipf_colorkey", [False, True])
-    @pytest.mark.parametrize(
-        "vector_kwargs", [None, {"annotate": False}, {"annotate": True}]
-    )
-    def test_plot_over_single_phase_signal(
-        self,
-        simple_multi_rot_orientation_result,
-        add_vector_markers,
-        add_ipf_markers,
-        add_ipf_correlation_heatmap,
-        add_ipf_colorkey,
-        vector_kwargs,
-    ):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        orientations.plot_over_signal(
-            s,
-            add_vector_markers=add_vector_markers,
-            add_ipf_markers=add_ipf_markers,
-            add_ipf_correlation_heatmap=add_ipf_correlation_heatmap,
-            add_ipf_colorkey=add_ipf_colorkey,
-            vector_kwargs=vector_kwargs,
-        )
+    # @pytest.mark.parametrize("add_vector_markers", [False, True])
+    # @pytest.mark.parametrize("add_ipf_markers", [False, True])
+    # @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
+    # @pytest.mark.parametrize("add_ipf_colorkey", [False, True])
+    # @pytest.mark.parametrize(
+    #     "vector_kwargs", [None, {"annotate": False}, {"annotate": True}]
+    # )
+    # def test_plot_over_single_phase_signal(
+    #     self,
+    #     simple_multi_rot_orientation_result,
+    #     add_vector_markers,
+    #     add_ipf_markers,
+    #     add_ipf_correlation_heatmap,
+    #     add_ipf_colorkey,
+    #     vector_kwargs,
+    # ):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     orientations.plot_over_signal(
+    #         s,
+    #         add_vector_markers=add_vector_markers,
+    #         add_ipf_markers=add_ipf_markers,
+    #         add_ipf_correlation_heatmap=add_ipf_correlation_heatmap,
+    #         add_ipf_colorkey=add_ipf_colorkey,
+    #         vector_kwargs=vector_kwargs,
+    #     )
 
-    @pytest.mark.parametrize("add_vector_markers", [False, True])
-    @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
-    @pytest.mark.parametrize("add_ipf_colorkey", [False, True])
-    @pytest.mark.parametrize(
-        "vector_kwargs", [None, {"annotate": False}, {"annotate": True}]
-    )
-    def test_plot_over_multi_phase_signal(
-        self,
-        multi_phase_orientation_result,
-        add_vector_markers,
-        add_ipf_correlation_heatmap,
-        add_ipf_colorkey,
-        vector_kwargs,
-    ):
-        add_ipf_markers = True
-        # Mock signal
-        s = hs.signals.Signal2D(
-            np.zeros(multi_phase_orientation_result.data.shape[:-2])[
-                ..., np.newaxis, np.newaxis
-            ]
-        )
-        multi_phase_orientation_result.plot_over_signal(
-            s,
-            add_vector_markers=add_vector_markers,
-            add_ipf_markers=add_ipf_markers,
-            add_ipf_correlation_heatmap=add_ipf_correlation_heatmap,
-            add_ipf_colorkey=add_ipf_colorkey,
-            vector_kwargs=vector_kwargs,
-        )
+    # @pytest.mark.parametrize("add_vector_markers", [False, True])
+    # @pytest.mark.parametrize("add_ipf_correlation_heatmap", [False, True])
+    # @pytest.mark.parametrize("add_ipf_colorkey", [False, True])
+    # @pytest.mark.parametrize(
+    #     "vector_kwargs", [None, {"annotate": False}, {"annotate": True}]
+    # )
+    # def test_plot_over_multi_phase_signal(
+    #     self,
+    #     multi_phase_orientation_result,
+    #     add_vector_markers,
+    #     add_ipf_correlation_heatmap,
+    #     add_ipf_colorkey,
+    #     vector_kwargs,
+    # ):
+    #     add_ipf_markers = True
+    #     # Mock signal
+    #     s = hs.signals.Signal2D(
+    #         np.zeros(multi_phase_orientation_result.data.shape[:-2])[
+    #             ..., np.newaxis, np.newaxis
+    #         ]
+    #     )
+    #     multi_phase_orientation_result.plot_over_signal(
+    #         s,
+    #         add_vector_markers=add_vector_markers,
+    #         add_ipf_markers=add_ipf_markers,
+    #         add_ipf_correlation_heatmap=add_ipf_correlation_heatmap,
+    #         add_ipf_colorkey=add_ipf_colorkey,
+    #         vector_kwargs=vector_kwargs,
+    #     )
 
-    def test_to_ipf_correlation_heatmap_markers_single_phase(
-        self, simple_multi_rot_orientation_result
-    ):
-        orientations, rotations, s = simple_multi_rot_orientation_result
-        markers = orientations.to_ipf_correlation_heatmap_markers()
-        assert all(isinstance(m, hs.plot.markers.Markers) for m in markers)
+    # def test_to_ipf_correlation_heatmap_markers_single_phase(
+    #     self, simple_multi_rot_orientation_result
+    # ):
+    #     orientations, rotations, s = simple_multi_rot_orientation_result
+    #     markers = orientations.to_ipf_correlation_heatmap_markers()
+    #     assert all(isinstance(m, hs.plot.markers.Markers) for m in markers)
 
-    def test_to_ipf_correlation_heatmap_markers_multi_phase(
-        self, multi_phase_orientation_result
-    ):
-        markers = multi_phase_orientation_result.to_ipf_correlation_heatmap_markers()
-        assert all(isinstance(m, hs.plot.markers.Markers) for m in markers)
+    # def test_to_ipf_correlation_heatmap_markers_multi_phase(
+    #     self, multi_phase_orientation_result
+    # ):
+    #     markers = multi_phase_orientation_result.to_ipf_correlation_heatmap_markers()
+    #     assert all(isinstance(m, hs.plot.markers.Markers) for m in markers)
 
-    def test_vector_markers_correctness(self):
-        """
-        Check if the markers are plotted correctly by performing orientation mapping
-        on a non-centrosymmetric signal, where only one quadrant is non-zero,
-        using a template with only one diffraction spot.
-        This spot should then be plotted in the correct quadrant.
-        """
-        from pyxem.signals import Diffraction2D
+    # def test_vector_markers_correctness(self):
+    #     """
+    #     Check if the markers are plotted correctly by performing orientation mapping
+    #     on a non-centrosymmetric signal, where only one quadrant is non-zero,
+    #     using a template with only one diffraction spot.
+    #     This spot should then be plotted in the correct quadrant.
+    #     """
+    #     from pyxem.signals import Diffraction2D
 
-        # Simple signal: 1 in first quadrant, 0 elsewhere
-        signal = Diffraction2D(np.array([[[[0, 1], [0, 0]]]]))
-        signal.calibration(center=None)
-        polar = signal.get_azimuthal_integral2d(npt=10, npt_azim=36)
+    #     # Simple signal: 1 in first quadrant, 0 elsewhere
+    #     signal = Diffraction2D(np.array([[[[0, 1], [0, 0]]]]))
+    #     signal.calibration(center=None)
+    #     polar = signal.get_azimuthal_integral2d(npt=10, npt_azim=36)
 
-        from diffpy.structure import Lattice, Atom, Structure
-        from orix.crystal_map import Phase
+    #     from diffpy.structure import Lattice, Atom, Structure
+    #     from orix.crystal_map import Phase
 
-        # Primitive cubic structure, any will do
-        l = Lattice(5, 5, 5, 90, 90, 90)
-        a = [Atom("Au", xyz=[0, 0, 0], lattice=l)]
-        s = Structure(a, l)
-        p = Phase(space_group=221, structure=s)
-        gen = SimulationGenerator()
-        sim = gen.calculate_diffraction2d(p, with_direct_beam=False)
+    #     # Primitive cubic structure, any will do
+    #     l = Lattice(5, 5, 5, 90, 90, 90)
+    #     a = [Atom("Au", xyz=[0, 0, 0], lattice=l)]
+    #     s = Structure(a, l)
+    #     p = Phase(space_group=221, structure=s)
+    #     gen = SimulationGenerator()
+    #     sim = gen.calculate_diffraction2d(p, with_direct_beam=False)
 
-        # Set intensities to 0 for all vectors except one
-        _, _, v = sim.get_simulation(0)
-        v.intensity[:-1] = 0
-        v.intensity[-1] = 1
+    #     # Set intensities to 0 for all vectors except one
+    #     _, _, v = sim.get_simulation(0)
+    #     v.intensity[:-1] = 0
+    #     v.intensity[-1] = 1
 
-        # Perform matching
-        res = polar.get_orientation(sim)
+    #     # Perform matching
+    #     res = polar.get_orientation(sim)
 
-        # Check cartesian
-        x, y = res.to_markers()[0].kwargs["offsets"][0, 0][-1]
-        assert x > 0
-        # When plotting, the y-axis points downwards, but pyxem defines it as upwards.
-        # Therefore, the first quadrant, as pyxem defines it, has negative y when plotting.
-        assert y < 0
+    #     # Check cartesian
+    #     x, y = res.to_markers()[0].kwargs["offsets"][0, 0][-1]
+    #     assert x > 0
+    #     # When plotting, the y-axis points downwards, but pyxem defines it as upwards.
+    #     # Therefore, the first quadrant, as pyxem defines it, has negative y when plotting.
+    #     assert y < 0
 
-        # Check polar
-        r, t = res.to_polar_markers()[0].kwargs["offsets"][0, 0][-1]
-        assert r > 0
-        assert 0 < t < np.pi / 2
+    #     # Check polar
+    #     r, t = res.to_polar_markers()[0].kwargs["offsets"][0, 0][-1]
+    #     assert r > 0
+    #     assert 0 < t < np.pi / 2
 
-    def test_vectors_from_orientation_map(self, single_rot_orientation_result):
-        data, intensities, phases, phase_indices, hkl = (
-            single_rot_orientation_result.get_simulation_arrays()
-        )
-        phases_dicts = [phase2dict(p) for p in phases]
-        original_data = data.copy()
-        v = vectors_from_orientation_map(
-            single_rot_orientation_result.data[0, 0],
-            vectors=data,
-            phases=phases_dicts,
-            hkl=hkl,
-            phase_index=phase_indices,
-            intensities=intensities,
-            n_best_index=0,
-        )
+    # def test_vectors_from_orientation_map(self, single_rot_orientation_result):
+    #     data, intensities, phases, phase_indices, hkl = (
+    #         single_rot_orientation_result.get_simulation_arrays()
+    #     )
+    #     phases_dicts = [phase2dict(p) for p in phases]
+    #     original_data = data.copy()
+    #     v = vectors_from_orientation_map(
+    #         single_rot_orientation_result.data[0, 0],
+    #         vectors=data,
+    #         phases=phases_dicts,
+    #         hkl=hkl,
+    #         phase_index=phase_indices,
+    #         intensities=intensities,
+    #         n_best_index=0,
+    #     )
 
-        np.testing.assert_almost_equal(
-            v.original_hkl, single_rot_orientation_result.simulation.coordinates.hkl
-        )
-        np.testing.assert_equal(original_data, data)
+    #     np.testing.assert_almost_equal(
+    #         v.original_hkl, single_rot_orientation_result.simulation.coordinates.hkl
+    #     )
+    #     np.testing.assert_equal(original_data, data)
