@@ -454,7 +454,9 @@ class Diffraction2D(CommonDiffraction, Signal2D):
             )
         subtraction_function = method_dict[method]
 
-        return self.map(subtraction_function, inplace=inplace, **kwargs)
+        return self.map(
+            subtraction_function, inplace=inplace, silence_warnings=True, **kwargs
+        )
 
     @deprecated_argument(
         name="mask_array", since="0.15.0", removal="1.0.0", alternative="mask"
@@ -753,6 +755,7 @@ class Diffraction2D(CommonDiffraction, Signal2D):
                 output_signal_size=(2,),
                 output_dtype=np.float32,
                 lazy_output=lazy_output,
+                silence_warnings=True,
                 **kwargs,
             )
         elif method == "blur":
@@ -762,6 +765,7 @@ class Diffraction2D(CommonDiffraction, Signal2D):
                 output_signal_size=(2,),
                 output_dtype=np.int16,
                 lazy_output=lazy_output,
+                silence_warnings=True,
                 **kwargs,
             )
             shifts = -centers + origin_coordinates
@@ -772,6 +776,7 @@ class Diffraction2D(CommonDiffraction, Signal2D):
                 output_signal_size=(2,),
                 output_dtype=np.float32,
                 lazy_output=lazy_output,
+                silence_warnings=True,
                 **kwargs,
             )
             shifts = -centers + origin_coordinates
@@ -898,6 +903,7 @@ class Diffraction2D(CommonDiffraction, Signal2D):
             lazy_output=lazy_output,
             output_dtype=self.data.dtype,
             output_signal_size=self.axes_manager.signal_shape[::-1],
+            silence_warnings=True,
             **align_kwargs,
         )
 
