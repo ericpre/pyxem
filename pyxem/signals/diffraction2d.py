@@ -165,15 +165,11 @@ class Diffraction2D(CommonDiffraction, Signal2D):
                 convert_affine_to_transform, shape=shape, inplace=False
             )
 
-        if not keep_dtype:
-            out_dtype = float
-        else:
-            out_dtype = self.data.dtype
-
         return self.map(
             apply_transformation,
             transformation=transformation,
-            output_dtype=out_dtype,
+            output_dtype=self.data.dtype if keep_dtype else float,
+            output_signal_size=self.axes_manager.signal_shape[::-1],
             order=order,
             keep_dtype=keep_dtype,
             inplace=inplace,
@@ -278,11 +274,12 @@ class Diffraction2D(CommonDiffraction, Signal2D):
         """
         s_rotated = self.map(
             rotate,
-            ragged=False,
             angle=-angle,
             reshape=False,
             inplace=False,
             show_progressbar=show_progressbar,
+            output_dtype=self.data.dtype,
+            output_signal_size=self.axes_manager.signal_shape[::-1],
         )
         if self._lazy:
             s_rotated.compute(show_progressbar=show_progressbar)
@@ -454,7 +451,13 @@ class Diffraction2D(CommonDiffraction, Signal2D):
             )
         subtraction_function = method_dict[method]
 
-        return self.map(subtraction_function, inplace=inplace, **kwargs)
+        return self.map(
+            subtraction_function,
+            inplace=inplace,
+            output_dtype=kwargs.pop("output_dtype", self.data.dtype),
+            output_signal_size=self.axes_manager.signal_shape[::-1],
+            **kwargs,
+        )
 
     @deprecated_argument(
         name="mask_array", since="0.15.0", removal="1.0.0", alternative="mask"
@@ -571,6 +574,8 @@ class Diffraction2D(CommonDiffraction, Signal2D):
             threshold_multiplier=threshold_multiplier,
             mask=mask,
             inplace=inplace,
+            output_dtype=bool,
+            output_signal_size=self.axes_manager.signal_shape[::-1],
             **kwargs,
         )
 
@@ -616,7 +621,13 @@ class Diffraction2D(CommonDiffraction, Signal2D):
         find_hot_pixels
 
         """
-        return self.map(remove_bad_pixels, bad_pixels=bad_pixel_array, **kwargs)
+        return self.map(
+            remove_bad_pixels,
+            bad_pixels=bad_pixel_array,
+            output_dtype=kwargs.pop("output_dtype", self.data.dtype),
+            output_signal_size=self.axes_manager.signal_shape[::-1],
+            **kwargs,
+        )
 
     """ Direct beam and peak finding tools """
 
@@ -952,15 +963,16 @@ class Diffraction2D(CommonDiffraction, Signal2D):
             x, y, r = mask
             im_x, im_y = self.axes_manager.signal_shape
             mask = pst._make_circular_mask(x, y, im_x, im_y, r)
-        s_out = self.map(
+        return self.map(
             function=pst._threshold_and_mask_single_frame,
             ragged=False,
             inplace=False,
             show_progressbar=show_progressbar,
             threshold=threshold,
             mask=mask,
+            output_dtype=self.data.dtype,
+            output_signal_size=self.axes_manager.signal_shape[::-1],
         )
-        return s_out
 
     @deprecated_argument(
         name="lazy_result", alternative="lazy_output", since="0.15.0", removal="1.0.0"
