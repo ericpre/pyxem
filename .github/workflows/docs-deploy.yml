@@ -56,10 +56,15 @@ jobs:
       contents: write
     steps:
       - name: Download built docs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ env.artifact_name }}
           path: ${{ env.html_folder }}
+          # need to specify the run id to get the artifact from the correct workflow run
+          # and set the github-token to access the actions scope
+          # https://github.com/actions/download-artifact?tab=readme-ov-file#download-artifacts-from-other-workflow-runs-or-repositories
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
 
       - name: Print doc files
         run: ls -l ${{ env.html_folder }}
@@ -97,7 +102,7 @@ jobs:
       - name: Download redirect files
         # run on tag only
         if: github.ref_type == 'tag'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: redirect
           path: redirect
