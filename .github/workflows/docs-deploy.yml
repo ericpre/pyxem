@@ -6,6 +6,10 @@ on:
       workflow_run_id:
         description: 'The run id of the workflow building the docs'
         required: true
+      ref_type:
+        # need to pass ref_type to know if we are on a tag or branch
+        description: 'The git ref type of the workflow building the docs'
+        required: true
       pr_number:
         description: 'The pull request number for deploying a PR preview, if applicable'
         default: ''
@@ -37,7 +41,7 @@ jobs:
 
       - name: Deploy dev
         # run on main branch only
-        if: github.ref_name == 'main' 
+        if: inputs.ref_type == 'branch' && inputs.pr_number != ''
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +62,7 @@ jobs:
 
       - name: Deploy versioned docs
         # run on tag only
-        if: github.ref_type == 'tag'
+        if: inputs.ref_type == 'tag'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,7 +72,7 @@ jobs:
 
       - name: Download redirect files
         # run on tag only
-        if: github.ref_type == 'tag'
+        if: inputs.ref_type == 'tag'
         uses: actions/download-artifact@v5
         with:
           name: redirect
@@ -81,7 +85,7 @@ jobs:
 
       - name: Deploy redirect to versioned docs
         # run on tag only
-        if: github.ref_type == 'tag'
+        if: inputs.ref_type == 'tag'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

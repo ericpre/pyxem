@@ -61,6 +61,7 @@ jobs:
       - run: |
           gh workflow run docs-deploy.yml \
             -f workflow_run_id=${{ github.run_id }} \
-            -f pr_number=${{ github.event.pull_request.number }}
+            -f pr_number=${{ github.event.pull_request.number }} \
+            -f ref_type=${{ github.ref_type }}
         env:
           GH_TOKEN: ${{ github.token }}
