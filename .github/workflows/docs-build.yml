@@ -17,7 +17,7 @@ jobs:
 
   Redirect-stable:
     # build a redirect index.html to the stable version on tag builds
-    if: github.repository == 'pyxem/pyxem'
+    # if: github.repository == 'pyxem/pyxem'
     permissions:
       contents: read
     runs-on: ubuntu-latest

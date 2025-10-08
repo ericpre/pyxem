@@ -18,7 +18,7 @@ env:
 jobs:
 
   deploy:
-    if: github.repository == 'pyxem/pyxem'
+    # if: github.repository == 'pyxem/pyxem'
     runs-on: ubuntu-latest
     steps:
       - name: Download built docs
