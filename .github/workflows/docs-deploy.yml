@@ -10,6 +10,10 @@ on:
         # need to pass ref_type to know if we are on a tag or branch
         description: 'The git ref type of the workflow building the docs'
         required: true
+      ref_name:
+        # need to pass ref_name to know the tag or branch name of the workflow building the docs
+        description: 'The git ref name of the workflow building the docs'
+        required: true
       pr_number:
         description: 'The pull request number for deploying a PR preview, if applicable'
         default: ''
@@ -39,9 +43,9 @@ jobs:
       - name: Print doc files
         run: ls -l ${{ env.html_folder }}
 
-      - name: Deploy dev
+      - name: Deploy dev docs
         # run on main branch only
-        if: inputs.ref_type == 'branch' && inputs.pr_number != ''
+        if: inputs.ref_name == 'main'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -68,7 +72,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir:  ${{ env.html_folder }}
-          destination_dir: ${{ github.ref_name }} # deploy to a folder matching the tag version
+          destination_dir: ${{ inputs.ref_name }} # deploy to a folder matching the tag version
 
       - name: Download redirect files
         # run on tag only
