@@ -1,81 +1,25 @@
 name: Docs deploy
-concurrency: docs-deploy-${{ github.ref }}
+
 on:
-  workflow_run:
-    workflows: ["Docs build"]
-    types:
-      - completed
+  workflow_dispatch:
+    inputs:
+      workflow_run_id:
+        description: 'The run id of the workflow building the docs'
+        required: true
+      pr_number:
+        description: 'The pull request number for deploying a PR preview, if applicable'
+        default: ''
+        required: false
 
 env:
   html_folder: ./doc/_build/html
   artifact_name: doc_html
 
 jobs:
-  # build a redirect index.html to the stable version on tag builds
-  # always run this job (even when it is not needed) to be able to
-  # depend on it in the deploy job
-  redirect-stable:
-    if: >
-      github.repository == 'pyxem/pyxem' &&
-      github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
-    outputs:
-      IS_TAG: ${{ steps.detect.outputs.IS_TAG }}
-    steps:
-      - uses: actions/checkout@v2
-        # checkout is needed to figure out if head_branch is a tag
-        with:
-          repository: ${{ github.event.workflow_run.head_repository.full_name }}
-          ref: ${{ github.event.workflow_run.head_branch }}
-
-      - name: Detect whether head_branch is a tag
-        id: detect
-        shell: bash
-        env:
-          # `github.ref_name` and `github.ref_type` are not available in workflow_run events 
-          REF_NAME: ${{ github.event.workflow_run.head_branch }}
-        run: |
-          # exits 0 only if a tag with that name exists
-          if git rev-parse -q --verify "refs/tags/${REF_NAME}" ; then
-            echo "IS_TAG=true" >>"$GITHUB_OUTPUT"
-          else
-            echo "IS_TAG=false" >>"$GITHUB_OUTPUT"
-          fi
-
-      - name: Build index redirect
-        if: steps.detect.outputs.IS_TAG == 'true'
-        env:
-          VERSION: ${{ github.event.workflow_run.head_branch }}
-        run: |
-          mkdir -p redirect
-          cat <<EOF > redirect/index.html
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta http-equiv="refresh" content="0; url=${VERSION}/">
-              <script>window.location.href='${VERSION}/';</script>
-            </head>
-            <body>
-              <p>Redirecting to the <a href="${VERSION}/">documentation (stable)</a>...</p>
-            </body>
-          </html>
-          EOF
-
-      - uses: actions/upload-artifact@v4
-        if: steps.detect.outputs.IS_TAG == 'true'
-        with:
-          path: redirect
-          name: redirect
 
   deploy:
-    if: >
-      github.repository == 'pyxem/pyxem' &&
-      github.event.workflow_run.conclusion == 'success'
-    needs: redirect-stable
+    if: github.repository == 'pyxem/pyxem'
     runs-on: ubuntu-latest
-    permissions:
-      # needs write permission to push the docs
-      contents: write
     steps:
       - name: Download built docs
         uses: actions/download-artifact@v5
@@ -85,7 +29,7 @@ jobs:
           # need to specify the run id to get the artifact from the correct workflow run
           # and set the github-token to access the actions scope
           # https://github.com/actions/download-artifact?tab=readme-ov-file#download-artifacts-from-other-workflow-runs-or-repositories
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ inputs.workflow_run_id }}
           github-token: ${{ github.token }}
 
       - name: Print doc files
@@ -93,7 +37,7 @@ jobs:
 
       - name: Deploy dev
         # run on main branch only
-        if: github.event.workflow_run.head_branch == 'main' 
+        if: github.ref_name == 'main' 
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -103,27 +47,28 @@ jobs:
 
       - name: Deploy PR preview
         # run on pull request only
-        if: github.event.workflow_run.event == 'pull_request'
-        uses: rossjrw/pr-preview-action@9f77b1d057b494e662c50b8ca40ecc63f21e0887
+        if: inputs.pr_number != ''
+        uses: ./.github/actions/doc_preview
         with:
           source-dir: ${{ env.html_folder }}
           deploy-repository: CSSFrancis/pyxem-docs-staging
           token: ${{ secrets.PREVIEW_DEPLOY_KEY }}
           comment: true
+          pr-number: ${{ inputs.pr_number }}
 
       - name: Deploy versioned docs
         # run on tag only
-        if: needs.redirect-stable.outputs.IS_TAG == 'true'
+        if: github.ref_type == 'tag'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir:  ${{ env.html_folder }}
-          destination_dir: ${{ github.event.workflow_run.head_branch }} # deploy to a folder matching the tag version
+          destination_dir: ${{ github.ref_name }} # deploy to a folder matching the tag version
 
       - name: Download redirect files
         # run on tag only
-        if: needs.redirect-stable.outputs.IS_TAG == 'true'
+        if: github.ref_type == 'tag'
         uses: actions/download-artifact@v5
         with:
           name: redirect
@@ -131,7 +76,7 @@ jobs:
 
       - name: Deploy redirect to versioned docs
         # run on tag only
-        if: needs.redirect-stable.outputs.IS_TAG == 'true'
+        if: github.ref_type == 'tag'
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
