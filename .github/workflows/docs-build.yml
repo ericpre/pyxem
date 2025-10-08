@@ -52,7 +52,7 @@ jobs:
     permissions:
       contents: write # to be able to push to gh-pages
       pull-requests: write # to be able to post PR comments with the preview link
-      actions: read # to be able to download artifacts from other workflows
+      actions: write # to be able to create workflow dispatch event
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
