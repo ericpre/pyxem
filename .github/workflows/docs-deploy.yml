@@ -73,6 +73,11 @@ jobs:
         with:
           name: redirect
           path: redirect
+          # need to specify the run id to get the artifact from the correct workflow run
+          # and set the github-token to access the actions scope
+          # https://github.com/actions/download-artifact?tab=readme-ov-file#download-artifacts-from-other-workflow-runs-or-repositories
+          run-id: ${{ inputs.workflow_run_id }}
+          github-token: ${{ github.token }}
 
       - name: Deploy redirect to versioned docs
         # run on tag only

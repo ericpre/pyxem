@@ -52,9 +52,15 @@ jobs:
     permissions:
       contents: write # to be able to push to gh-pages
       pull-requests: write # to be able to post PR comments with the preview link
+      actions: read # to be able to download artifacts from other workflows
     runs-on: ubuntu-latest
     steps:
-     - run: |
-        gh workflow run docs-deploy.yml \
-          -f workflow_run_id=${{ github.run_id }} \
-          -f pr_number=${{ github.event.pull_request.number }}
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - run: |
+          gh workflow run docs-deploy.yml \
+            -f workflow_run_id=${{ github.run_id }} \
+            -f pr_number=${{ github.event.pull_request.number }}
+        env:
+          GH_TOKEN: ${{ github.token }}
