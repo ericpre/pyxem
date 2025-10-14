@@ -830,12 +830,12 @@ example is shown in the ‘Filtering Data’-example.</p>
 </pre></div>
 </div>
 <img alt="Original, Difference of Gaussians, H-Dome" class="sphx-glr-single-img" src="../../_images/sphx_glr_background_subtraction_001.png" srcset="../../_images/sphx_glr_background_subtraction_001.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/51 [00:00&lt;?, ?it/s]
- 10%|▉         | 5/51 [00:00&lt;00:01, 37.02it/s]
- 25%|██▌       | 13/51 [00:00&lt;00:00, 55.45it/s]
- 41%|████      | 21/51 [00:00&lt;00:00, 64.62it/s]
- 61%|██████    | 31/51 [00:00&lt;00:00, 72.08it/s]
- 80%|████████  | 41/51 [00:00&lt;00:00, 73.99it/s]
-100%|██████████| 51/51 [00:00&lt;00:00, 75.47it/s]
+  6%|▌         | 3/51 [00:00&lt;00:01, 28.74it/s]
+ 25%|██▌       | 13/51 [00:00&lt;00:00, 59.98it/s]
+ 45%|████▌     | 23/51 [00:00&lt;00:00, 67.94it/s]
+ 69%|██████▊   | 35/51 [00:00&lt;00:00, 70.96it/s]
+ 84%|████████▍ | 43/51 [00:00&lt;00:00, 72.47it/s]
+100%|██████████| 51/51 [00:00&lt;00:00, 75.62it/s]
 /opt/hostedtoolcache/Python/3.12.11/x64/lib/python3.12/site-packages/pyxem/utils/_background_subtraction.py:99: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.
   regional_filter(frame / max_value, **kwargs), footprint=square(3)
 /opt/hostedtoolcache/Python/3.12.11/x64/lib/python3.12/site-packages/hyperspy/misc/utils.py:1439: UserWarning: Possible precision loss converting image of type float32 to uint8 as required by rank filters. Convert manually using skimage.util.img_as_ubyte to silence this warning.
@@ -846,17 +846,16 @@ example is shown in the ‘Filtering Data’-example.</p>
 /opt/hostedtoolcache/Python/3.12.11/x64/lib/python3.12/site-packages/hyperspy/misc/utils.py:1362: UserWarning: Possible precision loss converting image of type float32 to uint8 as required by rank filters. Convert manually using skimage.util.img_as_ubyte to silence this warning.
   output_array[islice] = function(data[islice], **kwargs)
 
-  2%|▏         | 1/51 [00:00&lt;00:09,  5.11it/s]
- 10%|▉         | 5/51 [00:00&lt;00:02, 17.98it/s]
- 22%|██▏       | 11/51 [00:00&lt;00:01, 30.97it/s]
- 29%|██▉       | 15/51 [00:00&lt;00:01, 28.32it/s]
- 41%|████      | 21/51 [00:00&lt;00:01, 28.21it/s]
- 49%|████▉     | 25/51 [00:00&lt;00:00, 30.56it/s]
- 57%|█████▋    | 29/51 [00:01&lt;00:00, 28.89it/s]
- 69%|██████▊   | 35/51 [00:01&lt;00:00, 33.31it/s]
- 76%|███████▋  | 39/51 [00:01&lt;00:00, 31.01it/s]
- 84%|████████▍ | 43/51 [00:01&lt;00:00, 28.90it/s]
-100%|██████████| 51/51 [00:01&lt;00:00, 31.73it/s]
+  2%|▏         | 1/51 [00:00&lt;00:11,  4.35it/s]
+ 18%|█▊        | 9/51 [00:00&lt;00:02, 20.15it/s]
+ 33%|███▎      | 17/51 [00:00&lt;00:01, 27.48it/s]
+ 45%|████▌     | 23/51 [00:00&lt;00:00, 34.00it/s]
+ 53%|█████▎    | 27/51 [00:01&lt;00:00, 28.67it/s]
+ 65%|██████▍   | 33/51 [00:01&lt;00:00, 26.66it/s]
+ 76%|███████▋  | 39/51 [00:01&lt;00:00, 30.45it/s]
+ 84%|████████▍ | 43/51 [00:01&lt;00:00, 30.59it/s]
+ 96%|█████████▌| 49/51 [00:01&lt;00:00, 35.10it/s]
+100%|██████████| 51/51 [00:01&lt;00:00, 30.37it/s]
 
 [&lt;Axes: title={'center': 'Original'}, xlabel='kx axis (px)', ylabel='ky axis (px)'&gt;, &lt;Axes: title={'center': 'Difference of Gaussians'}, xlabel='kx axis (px)', ylabel='ky axis (px)'&gt;, &lt;Axes: title={'center': 'H-Dome'}, xlabel='kx axis (px)', ylabel='ky axis (px)'&gt;]
 </pre></div>
@@ -895,30 +894,29 @@ i.e. the middle of the image</p>
 </pre></div>
 </div>
 <img alt="Original (polar), Radial Median, Radial Percentile" class="sphx-glr-single-img" src="../../_images/sphx_glr_background_subtraction_002.png" srcset="../../_images/sphx_glr_background_subtraction_002.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/26 [00:00&lt;?, ?it/s]
-  4%|▍         | 1/26 [00:03&lt;01:30,  3.62s/it]
- 38%|███▊      | 10/26 [00:03&lt;00:04,  3.67it/s]
- 81%|████████  | 21/26 [00:03&lt;00:00,  9.04it/s]
-100%|██████████| 26/26 [00:03&lt;00:00,  6.71it/s]
+  4%|▍         | 1/26 [00:03&lt;01:34,  3.78s/it]
+ 42%|████▏     | 11/26 [00:03&lt;00:03,  3.88it/s]
+ 81%|████████  | 21/26 [00:03&lt;00:00,  8.59it/s]
+100%|██████████| 26/26 [00:04&lt;00:00,  6.44it/s]
 
   0%|          | 0/51 [00:00&lt;?, ?it/s]
- 73%|███████▎  | 37/51 [00:00&lt;00:00, 362.10it/s]
-100%|██████████| 51/51 [00:00&lt;00:00, 406.07it/s]
+ 73%|███████▎  | 37/51 [00:00&lt;00:00, 357.59it/s]
+100%|██████████| 51/51 [00:00&lt;00:00, 404.86it/s]
 
   0%|          | 0/51 [00:00&lt;?, ?it/s]
-  2%|▏         | 1/51 [00:00&lt;00:12,  4.05it/s]
- 18%|█▊        | 9/51 [00:00&lt;00:02, 19.28it/s]
- 33%|███▎      | 17/51 [00:00&lt;00:01, 24.27it/s]
- 49%|████▉     | 25/51 [00:01&lt;00:00, 27.42it/s]
- 61%|██████    | 31/51 [00:01&lt;00:00, 31.56it/s]
- 69%|██████▊   | 35/51 [00:01&lt;00:00, 27.74it/s]
- 80%|████████  | 41/51 [00:01&lt;00:00, 28.47it/s]
- 92%|█████████▏| 47/51 [00:01&lt;00:00, 32.95it/s]
-100%|██████████| 51/51 [00:01&lt;00:00, 29.89it/s]
+  2%|▏         | 1/51 [00:00&lt;00:12,  4.01it/s]
+ 18%|█▊        | 9/51 [00:00&lt;00:02, 20.21it/s]
+ 33%|███▎      | 17/51 [00:00&lt;00:01, 25.89it/s]
+ 49%|████▉     | 25/51 [00:01&lt;00:00, 27.03it/s]
+ 65%|██████▍   | 33/51 [00:01&lt;00:00, 29.07it/s]
+ 76%|███████▋  | 39/51 [00:01&lt;00:00, 33.85it/s]
+ 84%|████████▍ | 43/51 [00:01&lt;00:00, 27.59it/s]
+100%|██████████| 51/51 [00:01&lt;00:00, 30.59it/s]
 
 [&lt;Axes: title={'center': 'Original (polar)'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (px)'&gt;, &lt;Axes: title={'center': 'Radial Median'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (px)'&gt;, &lt;Axes: title={'center': 'Radial Percentile'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (px)'&gt;]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 14.606 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 18.517 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-processing-background-subtraction-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b5372b91a2516ad65ca1133b08691f2a/background_subtraction.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">background_subtraction.ipynb</span></code></a></p>

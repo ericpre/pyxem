@@ -821,8 +821,8 @@ pattern is preserved.</p>
 </pre></div>
 </div>
 <img alt="Signal" class="sphx-glr-single-img" src="../../_images/sphx_glr_azimuthal_integration_001.png" srcset="../../_images/sphx_glr_azimuthal_integration_001.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/26 [00:00&lt;?, ?it/s]
-  4%|▍         | 1/26 [00:00&lt;00:06,  4.12it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 77.57it/s]
+  4%|▍         | 1/26 [00:00&lt;00:08,  2.92it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 60.04it/s]
 </pre></div>
 </div>
 <p>Aside: Actual Implementation
@@ -851,8 +851,8 @@ for each radial bin.</p>
 </pre></div>
 </div>
 <img alt="Signal" class="sphx-glr-single-img" src="../../_images/sphx_glr_azimuthal_integration_004.png" srcset="../../_images/sphx_glr_azimuthal_integration_004.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/26 [00:00&lt;?, ?it/s]
- 50%|█████     | 13/26 [00:00&lt;00:00, 124.76it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 141.67it/s]
+ 58%|█████▊    | 15/26 [00:00&lt;00:00, 141.14it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 146.95it/s]
 </pre></div>
 </div>
 <p>There are also other things you can account for with azimuthal integration, such as the
@@ -891,10 +891,10 @@ assumptions should apply for each case, but it would be good to test!</p>
 </pre></div>
 </div>
 <img alt="azimuthal integration" class="sphx-glr-single-img" src="../../_images/sphx_glr_azimuthal_integration_005.png" srcset="../../_images/sphx_glr_azimuthal_integration_005.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/26 [00:00&lt;?, ?it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 265.59it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 266.16it/s]
 
   0%|          | 0/26 [00:00&lt;?, ?it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 266.68it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 262.02it/s]
 
 &lt;Axes: xlabel='Radius (k_A^-1)', ylabel='Intensity'&gt;
 </pre></div>
@@ -912,9 +912,9 @@ transformation to the diffraction patterns before azimuthal integration.  This c
 </pre></div>
 </div>
 <img alt="Signal" class="sphx-glr-single-img" src="../../_images/sphx_glr_azimuthal_integration_006.png" srcset="../../_images/sphx_glr_azimuthal_integration_006.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/26 [00:00&lt;?, ?it/s]
-  4%|▍         | 1/26 [00:03&lt;01:15,  3.04s/it]
- 92%|█████████▏| 24/26 [00:03&lt;00:00, 10.65it/s]
-100%|██████████| 26/26 [00:03&lt;00:00,  8.28it/s]
+  4%|▍         | 1/26 [00:03&lt;01:19,  3.18s/it]
+100%|██████████| 26/26 [00:03&lt;00:00, 11.03it/s]
+100%|██████████| 26/26 [00:03&lt;00:00,  7.92it/s]
 </pre></div>
 </div>
 <p>The <cite>azimuth_range</cite>-argument lets you choose what angular range to calculate the azimuthal integral for.
@@ -937,24 +937,24 @@ The range can be increasing, decreasing, and does not need to be a multiple of p
 </pre></div>
 </div>
 <img alt="(-pi, pi) default, (0, 1), (0, 4pi), (pi, 0)" class="sphx-glr-single-img" src="../../_images/sphx_glr_azimuthal_integration_007.png" srcset="../../_images/sphx_glr_azimuthal_integration_007.png"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/26 [00:00&lt;?, ?it/s]
- 81%|████████  | 21/26 [00:00&lt;00:00, 204.14it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 222.87it/s]
+ 81%|████████  | 21/26 [00:00&lt;00:00, 209.62it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 221.83it/s]
 
   0%|          | 0/26 [00:00&lt;?, ?it/s]
- 85%|████████▍ | 22/26 [00:00&lt;00:00, 217.93it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 239.47it/s]
+ 92%|█████████▏| 24/26 [00:00&lt;00:00, 231.42it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 236.34it/s]
 
   0%|          | 0/26 [00:00&lt;?, ?it/s]
- 54%|█████▍    | 14/26 [00:00&lt;00:00, 137.38it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 147.49it/s]
+ 54%|█████▍    | 14/26 [00:00&lt;00:00, 136.48it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 149.50it/s]
 
   0%|          | 0/26 [00:00&lt;?, ?it/s]
-100%|██████████| 26/26 [00:00&lt;00:00, 311.34it/s]
+100%|██████████| 26/26 [00:00&lt;00:00, 300.77it/s]
 
 [&lt;Axes: title={'center': '(-pi, pi) default'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (k_A^-1)'&gt;, &lt;Axes: title={'center': '(0, 1)'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (k_A^-1)'&gt;, &lt;Axes: title={'center': '(0, 4pi)'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (k_A^-1)'&gt;, &lt;Axes: title={'center': '(pi, 0)'}, xlabel='Radians axis (Rad)', ylabel='Radius axis (k_A^-1)'&gt;]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 57.184 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 57.947 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-examples-processing-azimuthal-integration-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/c2c8767352005adbfb22222ef3e5a504/azimuthal_integration.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">azimuthal_integration.ipynb</span></code></a></p>
