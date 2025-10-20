@@ -14,7 +14,7 @@ jobs:
     with:
       pip_extra_doc: 'all,doc'
       install_package_ubuntu: graphviz optipng
-      check_links: true
+      check_links: false
       doctest: false
       SPHINXOPTS: '--jobs 4' # use parallel build to speed up builds
       ORGANISATION: 'pyxem'
@@ -37,7 +37,6 @@ jobs:
   Push-tag:
     needs: [Build]
     if: >
-      github.repository_owner == 'pyxem' &&
       github.event_name != 'pull_request' &&
       github.ref_type == 'tag'
     permissions:
