@@ -46,6 +46,8 @@ jobs:
     with:
       output_path: ${{ github.ref_name }}
       create_redirect: true
+      create_symbolic_link: true
+      symbolic_link_name: stable
 
   Upload-PR_preview:
     if: >
